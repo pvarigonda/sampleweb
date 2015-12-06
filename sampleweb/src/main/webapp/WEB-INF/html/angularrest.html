@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8">
+<title>Angular REST consumer sample</title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    
+<script>
+ var app = angular.module('myApp', []);
+
+ app.controller('myController', ['$scope', '$http', function($scope, $http)
+  {
+       //console.log($scope);
+       //console.log($http);
+      
+       $scope.output = [];
+       $scope.getData = function()
+       {
+            //console.log('invoking http get');
+            $http
+                .get('http://jsonplaceholder.typicode.com/posts')
+                .then(function(response)
+                      {
+                         $scope.output = response.data;
+                      });
+               // .then(console.log('success'), console.log('error'));
+       }; 
+      
+    
+    }]);   
+    </script>
+</head>
+<body>
+    <div ng-controller="myController">
+        <div><input type="button" value="Get Data" ng-click="getData()"/></div> 
+        <table>
+         <tr ng-repeat="row in output">
+             <td>{{row.id}}</td><td>{{row.title}}</td>
+         </tr>    
+        <th ng-if="output.length == 0">
+          No Results Found.    
+        </th>    
+        </ul>
+    </div>
+</body>
+</html>
